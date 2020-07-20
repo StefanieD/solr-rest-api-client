@@ -15,13 +15,13 @@ class Factory {
 	 * @param string $corePath
 	 * @return \SolrRestApiClient\Api\Client\Domain\Synonym\SynonymRepository
 	 */
-	public static function getSynonymRepository($hostname = 'localhost', $port = 8080, $corePath = 'solr/') {
+	public static function getSynonymRepository($hostname = 'localhost', $port = 8080, $corePath = 'solr/', $authArray = []) {
 		$dataMapper         = new \SolrRestApiClient\Api\Client\Domain\Synonym\SynonymDataMapper();
 		$synonymRepository  = new \SolrRestApiClient\Api\Client\Domain\Synonym\SynonymRepository();
 		$synonymRepository->setHostName($hostname);
 		$synonymRepository->setPort($port);
 		$synonymRepository->setCorePath($corePath);
-        $guzzle = self::getPreparedGuzzleClient($synonymRepository->getBaseUrl());
+        $guzzle = self::getPreparedGuzzleClient($synonymRepository->getBaseUrl(), $authArray);
 		$synonymRepository->injectRestClient($guzzle);
 		$synonymRepository->injectDataMapper($dataMapper);
 		$synonymRepository->setRestClientBaseUrl();
@@ -35,13 +35,13 @@ class Factory {
 	 * @param string $corePath
 	 * @return \SolrRestApiClient\Api\Client\Domain\StopWord\StopWordRepository
 	 */
-	public static function getStopWordRepository($hostname = 'localhost', $port = 8080, $corePath = 'solr/') {
+	public static function getStopWordRepository($hostname = 'localhost', $port = 8080, $corePath = 'solr/', $authArray = []) {
 		$dataMapper         = new \SolrRestApiClient\Api\Client\Domain\StopWord\StopWordDataMapper();
 		$stopWordRepository  = new \SolrRestApiClient\Api\Client\Domain\StopWord\StopWordRepository();
 		$stopWordRepository->setHostName($hostname);
 		$stopWordRepository->setPort($port);
 		$stopWordRepository->setCorePath($corePath);
-		$guzzle = self::getPreparedGuzzleClient($stopWordRepository->getBaseUrl());
+		$guzzle = self::getPreparedGuzzleClient($stopWordRepository->getBaseUrl(), $authArray);
 		$stopWordRepository->injectRestClient($guzzle);
 		$stopWordRepository->injectDataMapper($dataMapper);
 		$stopWordRepository->setRestClientBaseUrl();
@@ -55,13 +55,13 @@ class Factory {
 	 * @param string $corePath
 	 * @return \SolrRestApiClient\Api\Client\Domain\ManagedResource\ManagedResourceRepository
 	 */
-	public static function getManagedResourceRepository($hostname = 'localhost', $port = 8080, $corePath = 'solr/') {
+	public static function getManagedResourceRepository($hostname = 'localhost', $port = 8080, $corePath = 'solr/', $authArray = []) {
 		$dataMapper = new \SolrRestApiClient\Api\Client\Domain\ManagedResource\ManagedResourceDataMapper();
 		$managedResourceRepository = new \SolrRestApiClient\Api\Client\Domain\ManagedResource\ManagedResourceRepository();
 		$managedResourceRepository->setHostName($hostname);
 		$managedResourceRepository->setPort($port);
 		$managedResourceRepository->setCorePath($corePath);
-        $guzzle = self::getPreparedGuzzleClient($managedResourceRepository->getBaseUrl());
+        $guzzle = self::getPreparedGuzzleClient($managedResourceRepository->getBaseUrl(), $authArray);
 		$managedResourceRepository->injectRestClient($guzzle);
 		$managedResourceRepository->injectDataMapper($dataMapper);
 		$managedResourceRepository->setRestClientBaseUrl();
@@ -73,12 +73,16 @@ class Factory {
 	 * @return \GuzzleHttp\Client
 	 * @throws Exception\RuntimeException
 	 */
-	protected static function getPreparedGuzzleClient($baseUrl) {
-		$guzzle = new \GuzzleHttp\Client([
-		    'base_uri' => $baseUrl,
-            ['redirect.disable' => true]
-        ]);
+	protected static function getPreparedGuzzleClient($baseUrl, $authArray) {
+		$options = [
+            'base_uri' => $baseUrl,
+            'redirect.disable' => true,
+        ];
 
-		return $guzzle;
+		if (count($authArray)) {
+            $options['auth'] = $authArray;
+        }
+
+		return new \GuzzleHttp\Client($options);
 	}
 }
