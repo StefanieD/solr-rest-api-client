@@ -149,7 +149,7 @@ abstract class AbstractRepository {
 	 * @return \GuzzleHttp\Message\Response
 	 */
 	protected function executeGetRequest($endpoint, $options = array()) {
-		$response = $this->restClient->get($endpoint, $this->headers, $options);
+		$response = $this->restClient->get($endpoint, $options);
 		return $response;
 	}
 
@@ -159,7 +159,7 @@ abstract class AbstractRepository {
 	 * @return \GuzzleHttp\Message\Response
 	 */
 	protected function executeDeleteRequest($endpoint, $options = array()) {
-		$response = $this->restClient->delete($endpoint, $this->headers, $options);
+		$response = $this->restClient->delete($endpoint, $options);
 		return $response;
 	}
 }
