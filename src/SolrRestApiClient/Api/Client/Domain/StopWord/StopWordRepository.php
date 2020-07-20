@@ -49,7 +49,7 @@ class StopWordRepository extends AbstractTaggedResourceRepository {
 			$endpoint       = $this->getEndpoint(array($resourceTag));
 			$response       = $this->executeGetRequest($endpoint);
 			$result         = $response->getBody(true);
-		} catch ( \Guzzle\Http\Exception\BadResponseException $e) {
+		} catch ( \GuzzleHttp\Exception\BadResponseException $e) {
 			if($e->getResponse()->getStatusCode() === 404) {
 				return new StopWordCollection();
 			}
@@ -85,7 +85,7 @@ class StopWordRepository extends AbstractTaggedResourceRepository {
 
 				$stopwordCollection->add($stopWord);
 			}
-		} catch (\Guzzle\Http\Exception\BadResponseException $e) {
+		} catch (\GuzzleHttp\Exception\BadResponseException $e) {
 			if($e->getResponse()->getStatusCode() === 404) {
 				return $stopwordCollection;
 			}

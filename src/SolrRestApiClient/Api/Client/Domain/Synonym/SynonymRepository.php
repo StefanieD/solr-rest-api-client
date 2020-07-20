@@ -48,7 +48,7 @@ class SynonymRepository extends AbstractTaggedResourceRepository {
 			$endpoint       = $this->getEndpoint(array($resourceTag));
 			$response       = $this->executeGetRequest($endpoint, $options);
 			$result         = $response->getBody(true);
-		} catch ( \Guzzle\Http\Exception\BadResponseException $e) {
+		} catch ( \GuzzleHttp\Exception\BadResponseException $e) {
 			if($e->getResponse()->getStatusCode() === 404) {
 				return new SynonymCollection();
 			}

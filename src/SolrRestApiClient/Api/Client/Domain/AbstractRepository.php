@@ -11,7 +11,7 @@ namespace SolrRestApiClient\Api\Client\Domain;
 abstract class AbstractRepository {
 
 	/**
-	 * @var \Guzzle\Http\Client
+	 * @var \GuzzleHttp\Client
 	 */
 	protected $restClient;
 
@@ -102,10 +102,10 @@ abstract class AbstractRepository {
 	}
 
 	/**
-	 * @param \Guzzle\Http\Client $restClient
+	 * @param \GuzzleHttp\Client $restClient
 	 * @return void
 	 */
-	public function injectRestClient(\Guzzle\Http\Client $restClient) {
+	public function injectRestClient(\GuzzleHttp\Client $restClient) {
 		$this->restClient = $restClient;
 	}
 
@@ -136,7 +136,7 @@ abstract class AbstractRepository {
 	 * @param $endpoint
 	 * @param null $body
 	 * @param array $options
-	 * @return \Guzzle\Http\Message\Response
+	 * @return \GuzzleHttp\Message\Response
 	 */
 	protected function executePostRequest($endpoint, $body = null, $options = array()) {
 		$response = $this->restClient->post($endpoint, $this->headers, $body, $options)->send();
@@ -146,7 +146,7 @@ abstract class AbstractRepository {
 	/**
 	 * @param $endpoint
 	 * @param array $options
-	 * @return \Guzzle\Http\Message\Response
+	 * @return \GuzzleHttp\Message\Response
 	 */
 	protected function executeGetRequest($endpoint, $options = array()) {
 		$response = $this->restClient->get($endpoint, $this->headers, $options)->send();
@@ -156,7 +156,7 @@ abstract class AbstractRepository {
 	/**
 	 * @param string $endpoint
 	 * @param array $options
-	 * @return \Guzzle\Http\Message\Response
+	 * @return \GuzzleHttp\Message\Response
 	 */
 	protected function executeDeleteRequest($endpoint, $options = array()) {
 		$response = $this->restClient->delete($endpoint, $this->headers, $options)->send();

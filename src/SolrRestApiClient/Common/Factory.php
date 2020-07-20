@@ -73,11 +73,11 @@ class Factory {
 	}
 
 	/**
-	 * @return \Guzzle\Http\Client
+	 * @return \GuzzleHttp\Client
 	 * @throws Exception\RuntimeException
 	 */
 	protected static function getPreparedGuzzleClient() {
-		$guzzle = new \Guzzle\Http\Client();
+		$guzzle = new \GuzzleHttp\Client();
 		$guzzle->setConfig(array(
 			'redirect.disable' => true
 		));
