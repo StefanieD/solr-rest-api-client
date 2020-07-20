@@ -139,7 +139,7 @@ abstract class AbstractRepository {
 	 * @return \GuzzleHttp\Message\Response
 	 */
 	protected function executePostRequest($endpoint, $body = null, $options = array()) {
-		$response = $this->restClient->post($endpoint, $this->headers, $body, $options)->send();
+		$response = $this->restClient->post($endpoint, $this->headers, $body, $options);
 		return $response;
 	}
 
@@ -149,7 +149,7 @@ abstract class AbstractRepository {
 	 * @return \GuzzleHttp\Message\Response
 	 */
 	protected function executeGetRequest($endpoint, $options = array()) {
-		$response = $this->restClient->get($endpoint, $this->headers, $options)->send();
+		$response = $this->restClient->get($endpoint, $this->headers, $options);
 		return $response;
 	}
 
@@ -159,7 +159,7 @@ abstract class AbstractRepository {
 	 * @return \GuzzleHttp\Message\Response
 	 */
 	protected function executeDeleteRequest($endpoint, $options = array()) {
-		$response = $this->restClient->delete($endpoint, $this->headers, $options)->send();
+		$response = $this->restClient->delete($endpoint, $this->headers, $options);
 		return $response;
 	}
 }

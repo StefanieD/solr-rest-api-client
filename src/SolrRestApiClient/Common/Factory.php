@@ -16,13 +16,12 @@ class Factory {
 	 * @return \SolrRestApiClient\Api\Client\Domain\Synonym\SynonymRepository
 	 */
 	public static function getSynonymRepository($hostname = 'localhost', $port = 8080, $corePath = 'solr/') {
-		$guzzle             = self::getPreparedGuzzleClient();
 		$dataMapper         = new \SolrRestApiClient\Api\Client\Domain\Synonym\SynonymDataMapper();
-
 		$synonymRepository  = new \SolrRestApiClient\Api\Client\Domain\Synonym\SynonymRepository();
 		$synonymRepository->setHostName($hostname);
 		$synonymRepository->setPort($port);
 		$synonymRepository->setCorePath($corePath);
+        $guzzle = self::getPreparedGuzzleClient($synonymRepository->getBaseUrl());
 		$synonymRepository->injectRestClient($guzzle);
 		$synonymRepository->injectDataMapper($dataMapper);
 		$synonymRepository->setRestClientBaseUrl();
@@ -37,13 +36,12 @@ class Factory {
 	 * @return \SolrRestApiClient\Api\Client\Domain\StopWord\StopWordRepository
 	 */
 	public static function getStopWordRepository($hostname = 'localhost', $port = 8080, $corePath = 'solr/') {
-		$guzzle             = self::getPreparedGuzzleClient();
 		$dataMapper         = new \SolrRestApiClient\Api\Client\Domain\StopWord\StopWordDataMapper();
-
 		$stopWordRepository  = new \SolrRestApiClient\Api\Client\Domain\StopWord\StopWordRepository();
 		$stopWordRepository->setHostName($hostname);
 		$stopWordRepository->setPort($port);
 		$stopWordRepository->setCorePath($corePath);
+		$guzzle = self::getPreparedGuzzleClient($stopWordRepository->getBaseUrl());
 		$stopWordRepository->injectRestClient($guzzle);
 		$stopWordRepository->injectDataMapper($dataMapper);
 		$stopWordRepository->setRestClientBaseUrl();
@@ -58,13 +56,12 @@ class Factory {
 	 * @return \SolrRestApiClient\Api\Client\Domain\ManagedResource\ManagedResourceRepository
 	 */
 	public static function getManagedResourceRepository($hostname = 'localhost', $port = 8080, $corePath = 'solr/') {
-		$guzzle = self::getPreparedGuzzleClient();
 		$dataMapper = new \SolrRestApiClient\Api\Client\Domain\ManagedResource\ManagedResourceDataMapper();
-
 		$managedResourceRepository = new \SolrRestApiClient\Api\Client\Domain\ManagedResource\ManagedResourceRepository();
 		$managedResourceRepository->setHostName($hostname);
 		$managedResourceRepository->setPort($port);
 		$managedResourceRepository->setCorePath($corePath);
+        $guzzle = self::getPreparedGuzzleClient($managedResourceRepository->getBaseUrl());
 		$managedResourceRepository->injectRestClient($guzzle);
 		$managedResourceRepository->injectDataMapper($dataMapper);
 		$managedResourceRepository->setRestClientBaseUrl();
@@ -76,11 +73,11 @@ class Factory {
 	 * @return \GuzzleHttp\Client
 	 * @throws Exception\RuntimeException
 	 */
-	protected static function getPreparedGuzzleClient() {
-		$guzzle = new \GuzzleHttp\Client();
-		$guzzle->setConfig(array(
-			'redirect.disable' => true
-		));
+	protected static function getPreparedGuzzleClient($baseUrl) {
+		$guzzle = new \GuzzleHttp\Client([
+		    'base_uri' => $baseUrl,
+            ['redirect.disable' => true]
+        ]);
 
 		return $guzzle;
 	}
